@@ -330,7 +330,7 @@ ihc_hed = rgb2hed(ihc_rgb)
 del ihc_rgb
 
 null = np.zeros_like(ihc_hed[:, :, 0])
-ihc_d_gray = img_as_ubyte(hed2rgb(np.stack((null,null,ihc_hed[:, :, 2]))))
+ihc_d_gray = img_as_ubyte(hed2rgb(np.stack((null, null, ihc_hed[:, :, 2]), axis=-1)))
 ihc_d_gray = cv2.cvtColor(ihc_d_gray,cv2.COLOR_RGB2GRAY)
 del ihc_hed
 print("processing...hed2rgb done, took "+str(datetime.now().timestamp()-starttime))
