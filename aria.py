@@ -13,24 +13,38 @@ from openslide import OpenSlide
 # FILE_NAME = tkinter.filedialog.askopenfilename()
 
 SKIP_CROP = False
+MANUAL_THRESHOLD = False
 
 import sys
 if len(sys.argv) == 1 :
-    print("ARIA error : please provide filename")
-    print("usage : python aria.py [skip-crop(optional)] [filename]")
+    print("ARIA error : cannot understand arguments")
+    print("usage : python aria.py [skip-crop(optional)] [manual-threshold(optional)] [filename]")
     print("ex1) python aria.py skip-crop no-need-to-crop.svs - skips cropping step")
+    print("ex1) python aria.py skip-crop manual-threshold no-need-to-crop-manual-threshold.svs - skips cropping step / shows manual threshold adjustment step")
     print("ex2) python aria.py need-to-crop.svs - uses cropping step")
     exit()
 elif len(sys.argv) ==2 :
     FILE_NAME = sys.argv[1]
-elif len(sys.argv) == 3 :
+elif len(sys.argv) > 2 :
     if sys.argv[1]  == "skip-crop":
         SKIP_CROP = True
-        FILE_NAME = sys.argv[2] 
+        if sys.argv[2] == "manual-threshold" :
+            MANUAL_THRESHOLD= True
+            FILE_NAME = sys.argv[3] 
+        else :
+            FILE_NAME = sys.argv[2] 
+    elif sys.argv[1]  == "manual-threshold":
+        MANUAL_THRESHOLD= True
+        if sys.argv[2] == "skip-crop" :
+            MANUAL_THRESHOLD= True
+            FILE_NAME = sys.argv[3] 
+        else :
+            FILE_NAME = sys.argv[2] 
     else : # error
         print("ARIA error : cannot understand arguments")
-        print("usage : python aria.py [skip-crop(optional)] [filename]")
+        print("usage : python aria.py [skip-crop(optional)] [manual-threshold(optional)] [filename]")
         print("ex1) python aria.py skip-crop no-need-to-crop.svs - skips cropping step")
+        print("ex1) python aria.py skip-crop manual-threshold no-need-to-crop-manual-threshold.svs - skips cropping step / shows manual threshold adjustment step")
         print("ex2) python aria.py need-to-crop.svs - uses cropping step")
         exit()
     
@@ -374,24 +388,26 @@ kernel2 = np.ones([10,10])
 height, width= grayImage.shape
 totalArea = width*height
 
+if MANUAL_THRESHOLD :
 
-keyResult = None
-needsReload =True 
-while keyResult != 13 and keyResult != 27:
-    if needsReload :
-        needsReload = False
-        threshold = cv2.getTrackbarPos('threshold', WINDOW_NAME2)
- 
-        _,thresholded_image = cv2.threshold(ihc_d_gray_display,threshold,255,cv2.THRESH_BINARY)
-        cv2.putText(thresholded_image, "threshold : "+str(threshold), (200,200), cv2.FONT_HERSHEY_PLAIN, 3, (255,255,255), 3)
+    keyResult = None
+    needsReload =True 
+    while keyResult != 13 and keyResult != 27:
+        if needsReload :
+            needsReload = False
+            threshold = cv2.getTrackbarPos('threshold', WINDOW_NAME2)
+    
+            _,thresholded_image = cv2.threshold(ihc_d_gray_display,threshold,255,cv2.THRESH_BINARY)
+            cv2.putText(thresholded_image, "threshold : "+str(threshold), (200,200), cv2.FONT_HERSHEY_PLAIN, 3, (255,255,255), 3)
 
-        cv2.imshow(WINDOW_NAME2, cv2.hconcat([croppedImage,thresholded_image]))
-    keyResult = cv2.waitKey(1)
+            cv2.imshow(WINDOW_NAME2, cv2.hconcat([croppedImage,thresholded_image]))
+        keyResult = cv2.waitKey(1)
 
-cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
+    del thresholded_image
 
 
-del croppedImage, thresholded_image
+del croppedImage 
 
 
 _,th_auto = cv2.threshold(ihc_d_gray,threshold,255,cv2.THRESH_BINARY)
@@ -411,7 +427,7 @@ print("processing... imgwrite done, currently "+str(datetime.now().timestamp()-s
 import csv 
 
 fields = ["Total Area", "Threshold", "Stained(auto)", "Stained(fixed)"]
-results = [round(numpy.sum(finalMaskGray)/255), threshold,round(numpy.sum(th_auto)/255),round(numpy.sum(th_fixed)/255) ]
+results = [round(numpy.sum(finalMaskGray)/255), 255-threshold,round(numpy.sum(th_auto)/255),round(numpy.sum(th_fixed)/255) ]
 with open(FILE_NAME+"-result.csv", 'w',newline='') as f: 
       
     # using csv.writer method from CSV package 
