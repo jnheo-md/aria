@@ -52,7 +52,7 @@ elif len(sys.argv) > 2 :
 
 
 print("###########################")
-print("###### ARIA-PY v 2.1 ######")
+print("###### ARIA-PY v 2.2 ######")
 print("###########################")
 print("#### by JoonNyung Heo  ####")
 print("###########################")
@@ -411,7 +411,7 @@ del croppedImage
 
 
 _,th_auto = cv2.threshold(ihc_d_gray,threshold,255,cv2.THRESH_BINARY)
-_,th_fixed = cv2.threshold(ihc_d_gray,95,255,cv2.THRESH_BINARY)
+_,th_fixed = cv2.threshold(ihc_d_gray,55,255,cv2.THRESH_BINARY)
 
 del ihc_d_gray
 print("processing... thresholded done,  currently "+str(datetime.now().timestamp()-starttime))
