@@ -9,9 +9,6 @@ from skimage.color import rgb2hed, hed2rgb
 from openslide import OpenSlide
 ### constants
 
-# FILE_NAME="sample.tif"
-# FILE_NAME = tkinter.filedialog.askopenfilename()
-
 SKIP_CROP = False
 MANUAL_THRESHOLD = False
 
