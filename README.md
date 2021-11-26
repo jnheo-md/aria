@@ -1,6 +1,8 @@
 # ARIA
 Automated ROI-based Image Analysis
 
+![ARIA screenshot](https://brainpill.io/aria/ARIA-screenshot.jpg)
+
 ## About
 This is a python script to enable composition analysis for IHC slide images. Especially designed for human thrombi extracted by endovascular therapy for ischemic stroke patients. This script specifically performes the following tasks:
 
