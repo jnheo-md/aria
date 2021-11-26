@@ -2,9 +2,6 @@ import cv2
 import numpy
 import numpy as np
 
-import matplotlib.pyplot as plt
-
-from skimage import data
 from skimage.color import rgb2hed, hed2rgb
 from openslide import OpenSlide
 ### constants
