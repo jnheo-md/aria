@@ -24,10 +24,6 @@ Using a virtual environment is strongly recommended. The script requires the fol
 
 We will use conda virtual environment in this guide.
 
-## Install OpenSlide
-Openslide should be installed on your system. Google install openslide on "Windows / Mac" for further instructions.
-https://openslide.org/download/
-
 ## Install conda
 Google installing conda or use the following official instructions to install conda
 https://docs.anaconda.com/anaconda/install/
@@ -44,6 +40,15 @@ conda activate ARIA
 ```
 
 ## Install necessary packages
+
+### Install OpenSlide
+Openslide should be installed on your system. Google install openslide on "Windows / Mac" for further instructions.
+https://openslide.org/download/
+
+```
+⚠️ For windows, put the files from downloaded bin/ folder to Anaconda environment path root. For instance, if you installed Anaconda for 'just me', then the Anaconda environment folder may be at C:\Users\[user_id]\Anaconda3\envs\ARIA\. Copy all files from downloaded bin folder to here. 
+```
+
 ### Install numpy
 ```
 conda install numpy
