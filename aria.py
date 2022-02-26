@@ -136,7 +136,7 @@ if SKIP_CROP == False :
 
 
     WINDOW_NAME = "DRAG to set crop area, then press ENTER"
-    cv2.namedWindow(WINDOW_NAME)
+    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
     cv2.setMouseCallback(WINDOW_NAME, onClick)
     image = small_img.copy()
 
@@ -202,7 +202,7 @@ def passChange(a) :
     pass
 
 WINDOW_NAME2 = "Adjust variables then press ENTER"
-cv2.namedWindow(WINDOW_NAME2)
+cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_NORMAL)
 cv2.createTrackbar("contour start", WINDOW_NAME2, 0, 255, passChange)
 cv2.createTrackbar("contour end",WINDOW_NAME2, 0, 255, passChange)
 cv2.createTrackbar("min area", WINDOW_NAME2, 1, 100, passChange)
@@ -356,7 +356,7 @@ threshold = threshold_otsu(ihc_d_gray[ihc_d_gray!=0])
 ####### adjust threshold
 
 WINDOW_NAME2 = "Adjust threshold then press ENTER"
-cv2.namedWindow(WINDOW_NAME2)
+cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_NORMAL)
 cv2.createTrackbar("threshold", WINDOW_NAME2, 0, 255, passChange)
 cv2.setTrackbarPos("threshold",WINDOW_NAME2,threshold)
 
