@@ -151,7 +151,6 @@ def resizeAndCrop(src, startX, endX, startY, endY, use_openslide = False) :
                 output_endY = output_startY + ceil(this_block_height * slide_to_output_ratio)
                 
                 ## Compose new image
-                print(f"{output_endX - output_startX} / {output_endY - output_startY}")
 
                 result_shape =result_image[output_startY : output_endY, output_startX:output_endX].shape 
                 result_image[output_startY : output_endY, output_startX:output_endX] = cv2.cvtColor(cv2.resize(np.array(this_block_img), dsize=(result_shape[1],result_shape[0])), cv2.COLOR_RGB2BGR)
@@ -295,7 +294,7 @@ if SKIP_CROP == False :
     #variables for dragging, initial values
 
     WINDOW_NAME = "DRAG to set crop area, then press ENTER"
-    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_AUTOSIZE)
     cv2.setMouseCallback(WINDOW_NAME, onClick)
     image = small_img.copy()
 
@@ -351,7 +350,7 @@ def passChange(a) :
     pass
 
 WINDOW_NAME2 = "Adjust variables then press ENTER"
-cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_NORMAL)
+cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_AUTOSIZE)
 cv2.createTrackbar("contour start", WINDOW_NAME2, 0, 255, passChange)
 cv2.createTrackbar("contour end",WINDOW_NAME2, 0, 255, passChange)
 cv2.createTrackbar("min area", WINDOW_NAME2, 1, 100, passChange)
@@ -466,7 +465,7 @@ deconvoluted = deconvolution(slide_img, finalMaskGray, newX1, newX2, newY1, newY
 threshold = threshold_otsu(deconvoluted[deconvoluted!=0])
 
 WINDOW_NAME2 = "Adjust threshold then press ENTER"
-cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_NORMAL)
+cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_AUTOSIZE)
 cv2.createTrackbar("threshold", WINDOW_NAME2, 0, 255, passChange)
 cv2.setTrackbarPos("threshold",WINDOW_NAME2,threshold)
 
