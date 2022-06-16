@@ -1,3 +1,4 @@
+from configparser import Interpolation
 from math import ceil
 import cv2
 import csv 
@@ -174,7 +175,7 @@ def deconvolution(src, mask, startX, endX, startY, endY, USE_OPENSLIDE) :
     print("Starting deconvolution...")
 
     ## get full sized mask image
-    resizedMask = cv2.resize(mask, dsize = (endX - startX, endY - startY))
+    resizedMask = cv2.resize(mask, dsize = (endX - startX, endY - startY), interpolation=cv2.INTER_NEAREST)
 
     ## create empty result image
     result_image = np.zeros((endY - startY,endX - startX), np.uint8) # opencv type, height, weight, dim
@@ -456,6 +457,7 @@ from datetime import datetime
 deconvoluted = deconvolution(slide_img, finalMaskGray, newX1, newX2, newY1, newY2, USE_OPENSLIDE)
 
 
+cv2.imwrite(FILE_NAME + '-deconvoluted.png',(255-deconvoluted))
 
 ###############
 ## Thresholding
