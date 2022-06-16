@@ -1,4 +1,3 @@
-from configparser import Interpolation
 from math import ceil
 import cv2
 import csv 
