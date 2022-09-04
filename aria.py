@@ -16,6 +16,12 @@ BLOCK_SIZE = 1024
 
 import sys,os
 
+import platform
+window_type = cv2.WINDOW_NORMAL
+if(platform.system()=='Windows') :
+   window_type = cv2.WINDOW_AUTOSIZE
+   
+
 root = tkinter.Tk()
 root.withdraw() #use to hide tkinter window
 
@@ -294,7 +300,7 @@ if SKIP_CROP == False :
     #variables for dragging, initial values
 
     WINDOW_NAME = "DRAG to set crop area, then press ENTER"
-    cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
+    cv2.namedWindow(WINDOW_NAME, window_type)
     cv2.setMouseCallback(WINDOW_NAME, onClick)
     image = small_img.copy()
 
@@ -350,7 +356,7 @@ def passChange(a) :
     pass
 
 WINDOW_NAME2 = "Adjust variables then press ENTER"
-cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_NORMAL)
+cv2.namedWindow(WINDOW_NAME2, window_type)
 cv2.createTrackbar("contour start", WINDOW_NAME2, 0, 255, passChange)
 cv2.createTrackbar("contour end",WINDOW_NAME2, 0, 255, passChange)
 cv2.createTrackbar("min area", WINDOW_NAME2, 1, 100, passChange)
@@ -466,7 +472,7 @@ cv2.imwrite(FILE_NAME + '-deconvoluted.png',(255-deconvoluted))
 threshold = threshold_otsu(deconvoluted[deconvoluted!=0])
 
 WINDOW_NAME2 = "Adjust threshold then press ENTER"
-cv2.namedWindow(WINDOW_NAME2, cv2.WINDOW_NORMAL)
+cv2.namedWindow(WINDOW_NAME2, window_type)
 cv2.createTrackbar("threshold", WINDOW_NAME2, 0, 255, passChange)
 cv2.setTrackbarPos("threshold",WINDOW_NAME2,threshold)
 
@@ -516,7 +522,7 @@ resizedMask = cv2.resize(finalMaskGray, dsize = (deconvoluted.shape[1], deconvol
 
 
 fields = ["Total Area", "Threshold", "Stained(auto)", "Stained(fixed)"]
-results = [round(np.sum(resizedMask)/255), 255-threshold,round(np.sum(th_auto)/255),round(np.sum(th_fixed)/255) ]
+results = [round(np.sum(np.array(resizedMask, dtype=np.uint64))/255), 255-threshold,round(np.sum(np.array(th_auto, dtype=np.uint64))/255),round(np.sum(np.array(th_fixed, dtype=np.uint64))/255) ]
 with open(FILE_NAME+"-result.csv", 'w',newline='') as f: 
       
     # using csv.writer method from CSV package 
